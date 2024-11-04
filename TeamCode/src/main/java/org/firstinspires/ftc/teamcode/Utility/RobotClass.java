@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
+
 public class RobotClass {
     private LinearOpMode myOpMode = null;
 
@@ -36,39 +37,40 @@ public class RobotClass {
     }
 
     //Methods
-    public void init()    {
+    public void wheelSetUp(){
 
-        //Wheel Motors
-        //frontLeftDrive  = myOpMode.hardwareMap.get(DcMotor.class, "frontLeftDrive");
-        //frontRightDrive = myOpMode.hardwareMap.get(DcMotor.class, "frontRightDrive");
-        //backLeftDrive   = myOpMode.hardwareMap.get(DcMotor.class, "backLeftDrive");
-        //backRightDrive  = myOpMode.hardwareMap.get(DcMotor.class, "backRightDrive");
+        DcMotor leftFrontDrive;
+        DcMotor leftBackDrive;
+        DcMotor rightFrontDrive;
+        DcMotor rightBackDrive;
 
-        frontLeftDrive  = myOpMode.hardwareMap.get(DcMotor.class, "leftfront_drive");
-        frontRightDrive = myOpMode.hardwareMap.get(DcMotor.class, "rightfront_drive");
-        backLeftDrive   = myOpMode.hardwareMap.get(DcMotor.class, "leftback_drive");
-        backRightDrive  = myOpMode.hardwareMap.get(DcMotor.class, "rightback_drive");
+        leftFrontDrive  = myOpMode.hardwareMap.get(DcMotor.class, "leftfront_drive");
+        leftBackDrive  = myOpMode.hardwareMap.get(DcMotor.class, "leftback_drive");
+        rightFrontDrive = myOpMode.hardwareMap.get(DcMotor.class, "rightfront_drive");
+        rightBackDrive = myOpMode.hardwareMap.get(DcMotor.class, "rightback_drive");
 
+        leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
+        leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
+        rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
+        rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
 
-        //Wheel Directions
-        frontLeftDrive.setDirection(DcMotor.Direction.REVERSE);
-        frontRightDrive.setDirection(DcMotor.Direction.FORWARD);
-        backLeftDrive.setDirection(DcMotorSimple.Direction.REVERSE);
-
-
-
-        //Other Motors
-        //armMotor = myOpMode.hardwareMap.get(DcMotor.class, "arm");
-
-        //Servos
-        //leftHand = myOpMode.hardwareMap.get(Servo.class, "left_hand");
-        //rightHand = myOpMode.hardwareMap.get(Servo.class, "right_hand");
-        //leftHand.setPosition(MID_SERVO);
-        //rightHand.setPosition(MID_SERVO);
     }
 
-    public void driveRobot(double fl, double fr, double bl, double br)
-    {
+    public void servoSetUp(){
+        Servo leftSlideServo;
+        Servo rightSlideServo;
+        Servo leftArmServo;
+        Servo rightArmServo;
+        Servo intakeServo;
+
+        leftSlideServo = myOpMode.hardwareMap.get(Servo.class, "left_slide");
+        rightSlideServo = myOpMode.hardwareMap.get(Servo.class, "right_slide");
+        leftArmServo = myOpMode.hardwareMap.get(Servo.class, "left_arm");
+        rightArmServo = myOpMode.hardwareMap.get(Servo.class, "right_arm");
+        intakeServo = myOpMode.hardwareMap.get(Servo.class, "intake");
+    }
+
+    public void driveRobot(double fl, double fr, double bl, double br){
         // Send calculated power to wheels
         frontLeftDrive.setPower(fl);
         frontRightDrive.setPower(fr);
