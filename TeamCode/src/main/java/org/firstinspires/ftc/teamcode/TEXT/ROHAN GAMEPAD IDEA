@@ -1,0 +1,17 @@
+Left Stick - Movement and strafe
+Right Stick X - Rotation
+Right Stick Y - Vertical Slide
+Right Bumper - Toggle Claw Open/Closed
+Left Bumper - Toggle Claw In/Out
+Right Trigger - Intake Spin In
+Left Trigger - Intake Spin Out
+A - Auto Intake All The Way Out (Horizantal Slide extend, forebar arms drop down)
+Y - Auto Intake Halfway Out
+B - Auto Transfer (Intake comes into robot, claw grabs sample)
+X - Toggle drive Slow mode
+
+AUTOMATIONS
+When in robot, claw should be parallel to robot and vertical (to grap sample)
+as it comes out, it rotates horizatnal and perpendicular to robot (to put on bar)
+When reaches top, turns parallel and vertical (to drop in basket)
+

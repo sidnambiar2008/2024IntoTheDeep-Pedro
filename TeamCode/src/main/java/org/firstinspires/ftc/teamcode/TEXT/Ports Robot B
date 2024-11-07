@@ -1,0 +1,40 @@
+CONTROL HUB
+
+Motors
+0 - leftfront_drive
+1 - leftback_drive
+2 - left_slide (and encoder)
+3 -
+
+Motor Encoders
+0 - par_left
+1 - perp
+2 -
+3 - par_right
+
+Servos
+0 -
+1 -
+2 -
+3 -
+4 -
+
+Analog
+
+EXPANSION HUB
+
+Motors
+0 - rightfront_drive
+1 - rightback_drive
+2 - right_slide (and encoder)
+3 -
+
+Servos
+0 -
+1 -
+2 -
+3 -
+4 -
+
+Analog
+0-1 -

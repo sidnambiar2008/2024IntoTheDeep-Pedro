@@ -1,0 +1,40 @@
+CONTROL HUB
+
+Motors
+0 - leftfront_drive
+1 - leftback_drive
+2 - rightfront_drive
+3 - rightback_drive
+
+Motor Encoders
+0 -
+1 -
+2 -
+3 -
+
+Servos
+0 - right_slide
+1 - right_arm
+2 -
+3 -
+4 -
+
+Analog
+
+EXPANSION HUB
+
+Motors
+0 -
+1 -
+2 -
+3 -
+
+Servos
+0 - left_slide
+1 - intake
+2 - left_arm
+3 -
+4 -
+
+Analog
+0-1 - left_arm_encoder (white) + right_arm_encoder (blue)

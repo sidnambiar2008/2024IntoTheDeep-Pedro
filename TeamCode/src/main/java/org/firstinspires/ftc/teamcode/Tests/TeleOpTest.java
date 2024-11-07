@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode.Tests;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.AnalogInput;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -21,9 +23,13 @@ public class TeleOpTest extends LinearOpMode {
     private DcMotor rightBackDrive = null;
     private Servo leftSlideServo = null;
     private Servo rightSlideServo = null;
-    private Servo leftArmServo = null;
-    private Servo rightArmServo = null;
-    private Servo intakeServo = null;
+    private CRServo leftArmServo = null;
+    private CRServo rightArmServo = null;
+    private CRServo intakeServo = null;
+    private AnalogInput left_armPosition = null;
+    private AnalogInput right_armPosition = null;
+
+
     @Override
     public void runOpMode() {
 
@@ -38,19 +44,18 @@ public class TeleOpTest extends LinearOpMode {
             rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
             rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
 
-            Servo leftSlideServo;
-            Servo rightSlideServo;
-            Servo leftArmServo;
-            Servo rightArmServo;
-            Servo intakeServo;
-
             leftSlideServo = hardwareMap.get(Servo.class, "left_slide");
             rightSlideServo = hardwareMap.get(Servo.class, "right_slide");
-            leftArmServo = hardwareMap.get(Servo.class, "left_arm");
-            rightArmServo = hardwareMap.get(Servo.class, "right_arm");
-            intakeServo = hardwareMap.get(Servo.class, "intake");
+            leftArmServo = hardwareMap.get(CRServo.class, "left_arm");
+            rightArmServo = hardwareMap.get(CRServo.class, "right_arm");
+            intakeServo = hardwareMap.get(CRServo.class, "intake");
+
+            left_armPosition = hardwareMap.get(AnalogInput.class, "left_arm_encoder");
+            right_armPosition = hardwareMap.get(AnalogInput.class, "right_arm_encoder");
         }// Motor and Servo Init
 
+        leftSlideServo.setPosition(0.15);
+        rightSlideServo.setPosition(0.85);
         waitForStart();
         runtime.reset();
 
@@ -80,16 +85,46 @@ public class TeleOpTest extends LinearOpMode {
                 rightBackPower  /= max;
             }
 
+            leftArmServo.setPower(gamepad1.left_stick_y);
+            rightArmServo.setPower(gamepad1.left_stick_y*-1);
+
+            if (gamepad1.right_bumper){
+                leftSlideServo.setPosition(0);
+                rightSlideServo.setPosition(1);
+            }
+
+            if(gamepad1.left_bumper){
+                leftSlideServo.setPosition(0.15);
+                rightSlideServo.setPosition(0.85);
+            }
+
+            if (gamepad1.a){
+                intakeServo.setPower(-0.2);
+            }
+
+            if (gamepad1.b){
+                intakeServo.setPower(0);
+            }
+
+            telemetry.addData("Left Arm Power", leftArmServo.getPower());
+            telemetry.addData("Right Arm Power", rightArmServo.getPower());
+            telemetry.addData("Left Arm Position", left_armPosition.getVoltage());
+            telemetry.addData("Right Arm Position", right_armPosition.getVoltage());
+            telemetry.addData("Left Slide Position", leftSlideServo.getPosition());
+            telemetry.addData("Right Slide Position", rightSlideServo.getPosition());
+            telemetry.update();
 
 
             // Send calculated powers
+            /*
             leftFrontDrive.setPower(leftFrontPower);
             rightFrontDrive.setPower(rightFrontPower);
             leftBackDrive.setPower(leftBackPower);
             rightBackDrive.setPower(rightBackPower);
+            */
         }
 
     }
     //Methods
-    
+
 }
