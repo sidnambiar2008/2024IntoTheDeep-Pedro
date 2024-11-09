@@ -7,8 +7,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Utility.RobotClass;
 import org.firstinspires.ftc.teamcode.Utility.Toggles;
 
-@TeleOp(name="MainTeleOp", group="Main")
-public class MainTeleOp extends LinearOpMode {
+@TeleOp(name="TeleOpA", group="Main")
+public class MainTeleOpA extends LinearOpMode {
     RobotClass robot = new RobotClass(this);
     Toggles toggles = new Toggles(this);
     private ElapsedTime runtime = new ElapsedTime();
@@ -16,7 +16,8 @@ public class MainTeleOp extends LinearOpMode {
     public void runOpMode() {
 
         robot.wheelSetUp();
-        robot.servoSetUp();
+        robot.servoSetUpA();
+        robot.motorSetUpA();
 
         waitForStart();
         runtime.reset();

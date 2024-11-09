@@ -51,13 +51,27 @@ public class RobotClass {
 
     }
 
-    public void servoSetUp(){
+    public void servoSetUpA(){
 
         leftSlideServo = myOpMode.hardwareMap.get(Servo.class, "left_slide");
         rightSlideServo = myOpMode.hardwareMap.get(Servo.class, "right_slide");
         leftArmServo = myOpMode.hardwareMap.get(CRServo.class, "left_arm");
         rightArmServo = myOpMode.hardwareMap.get(CRServo.class, "right_arm");
         intakeServo = myOpMode.hardwareMap.get(CRServo.class, "intake");
+    }
+    public void motorSetUpA(){
+
+
+    }
+
+    public void servoSetUpB()
+    {
+
+    }
+
+    public void motorSetUpB()
+    {
+
     }
 
     public void driveRobot(double lf, double rf, double lb, double rb){
