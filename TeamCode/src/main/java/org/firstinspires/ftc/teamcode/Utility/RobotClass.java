@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.CRServo;
 
 
 public class RobotClass {
@@ -20,9 +21,9 @@ public class RobotClass {
     //Servos
     public Servo leftSlideServo;
     public Servo rightSlideServo;
-    public Servo leftArmServo;
-    public Servo rightArmServo;
-    public Servo intakeServo;
+    public CRServo leftArmServo;
+    public CRServo rightArmServo;
+    public CRServo intakeServo;
 
     //Other Variables
 
@@ -54,9 +55,9 @@ public class RobotClass {
 
         leftSlideServo = myOpMode.hardwareMap.get(Servo.class, "left_slide");
         rightSlideServo = myOpMode.hardwareMap.get(Servo.class, "right_slide");
-        leftArmServo = myOpMode.hardwareMap.get(Servo.class, "left_arm");
-        rightArmServo = myOpMode.hardwareMap.get(Servo.class, "right_arm");
-        intakeServo = myOpMode.hardwareMap.get(Servo.class, "intake");
+        leftArmServo = myOpMode.hardwareMap.get(CRServo.class, "left_arm");
+        rightArmServo = myOpMode.hardwareMap.get(CRServo.class, "right_arm");
+        intakeServo = myOpMode.hardwareMap.get(CRServo.class, "intake");
     }
 
     public void driveRobot(double lf, double rf, double lb, double rb){
