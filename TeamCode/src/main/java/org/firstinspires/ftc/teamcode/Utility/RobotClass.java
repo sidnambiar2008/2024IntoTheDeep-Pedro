@@ -18,12 +18,27 @@ public class RobotClass {
 
     //Other Motors
 
+        //A
+
+        //B
+    public DcMotor leftViper;
+    public DcMotor rightViper;
+    public DcMotor armMotorB;
+
     //Servos
+
+        //A
     public Servo leftSlideServo;
     public Servo rightSlideServo;
     public CRServo leftArmServo;
     public CRServo rightArmServo;
     public CRServo intakeServo;
+
+        //B
+    public Servo armSlide;
+    public Servo clawX;
+    public Servo clawY;
+    public Servo clawPinch;
 
     //Other Variables
 
@@ -66,12 +81,17 @@ public class RobotClass {
 
     public void servoSetUpB()
     {
-
+        armSlide = myOpMode.hardwareMap.get(Servo.class, "armSlide");
+        clawX = myOpMode.hardwareMap.get(Servo.class, "clawX");
+        clawY = myOpMode.hardwareMap.get(Servo.class, "clawY");
+        clawPinch = myOpMode.hardwareMap.get(Servo.class, "clawPinch");
     }
 
     public void motorSetUpB()
     {
-
+        leftViper = myOpMode.hardwareMap.get(DcMotor.class, "leftViper");
+        rightViper  = myOpMode.hardwareMap.get(DcMotor.class, "rightViper");
+        armMotorB = myOpMode.hardwareMap.get(DcMotor.class, "armB");
     }
 
     public void driveRobot(double lf, double rf, double lb, double rb){
