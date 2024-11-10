@@ -6,16 +6,18 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Utility.RobotClass;
 import org.firstinspires.ftc.teamcode.Utility.Toggles;
+import org.firstinspires.ftc.teamcode.Utility.Positions;
 
 @TeleOp(name="TeleOpA", group="Main")
 public class MainTeleOpA extends LinearOpMode {
     RobotClass robot = new RobotClass(this);
     Toggles toggles = new Toggles(this);
+    Positions positions = new Positions();
     private ElapsedTime runtime = new ElapsedTime();
     @Override
     public void runOpMode() {
 
-        robot.wheelSetUp();
+        robot.wheelSetUpA();
         robot.servoSetUpA();
         robot.motorSetUpA();
 
@@ -51,35 +53,44 @@ public class MainTeleOpA extends LinearOpMode {
                     leftBackPower /= max;
                     rightBackPower /= max;
                 }
+
+                leftFrontPower *= positions.speed;
+                rightFrontPower *= positions.speed;
+                leftBackPower *= positions.speed;
+                leftFrontPower *= positions.speed;
+
                 // Send calculated power to wheels
-                if (toggles.slowModeToggle) {
-                    robot.driveRobot(((leftFrontPower)/2), ((rightFrontPower)/2), ((leftBackPower)/2), ((rightBackPower)/2));
-                } else {
-                    robot.driveRobot(leftFrontPower, rightFrontPower, leftBackPower, rightBackPower);
-                }
+                robot.driveRobot(leftFrontPower, rightFrontPower, leftBackPower, rightBackPower);
             }
 
             //Vertical Slide (Right Stick Y)
             {
-
+                if (!(gamepad1.right_stick_y == 0)){
+                    //figure out PID controller
+                    robot.rightVerticalSlide.setPower(gamepad1.right_stick_y);
+                }
             }
 
             //Claw Toggles (Bumpers)
             {
                 toggles.toggle("right_bumper");
                 if (toggles.rBumpToggle){
-                    robot.leftSlideServo.setPosition(0);
-                    robot.rightSlideServo.setPosition(1);
+                    robot.rightSlideServo.setPosition(positions.rightSlideOut);
+                    robot.leftSlideServo.setPosition(positions.leftSlideOut);
                 } else {
-                    robot.leftSlideServo.setPosition(0.15);
-                    robot.rightSlideServo.setPosition(0.85);
+                    robot.rightSlideServo.setPosition(positions.rightSlideIn);
+                    robot.leftSlideServo.setPosition(positions.leftSlideIn);
                 }
             }
 
             //Intake Spin in / out (Triggers)
             {
-                //Just in right now
-                robot.intakeServo.setPower(-1*(gamepad1.right_trigger)/2);
+                //Right trigger spin in, left trigger spin out
+                if (gamepad1.right_trigger > 0) {
+                    robot.intakeServo.setPower(-1 * (gamepad1.right_trigger) / 2);
+                } else if (gamepad1.left_trigger > 0){
+                    robot.intakeServo.setPower(1 * (gamepad1.left_trigger) / 2);
+                }
             }
 
             //Auto Intake 100% (A)
@@ -94,6 +105,11 @@ public class MainTeleOpA extends LinearOpMode {
             //Slow Mode Toggle (X)
             {
                 toggles.toggle("x");
+                if (toggles.slowModeToggle){
+                    positions.speed *= positions.slowMultiplier;
+                } else {
+                    positions.speed = positions.MaxSpeed;
+                }
             }
 
         }

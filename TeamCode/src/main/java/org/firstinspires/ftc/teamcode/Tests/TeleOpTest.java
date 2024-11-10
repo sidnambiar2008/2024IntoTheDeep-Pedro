@@ -12,6 +12,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Utility.RobotClass;
+import org.firstinspires.ftc.teamcode.Utility.Positions;
 
 @TeleOp(name="TeleTest", group="Linear OpMode")
 public class TeleOpTest extends LinearOpMode {
@@ -85,8 +86,8 @@ public class TeleOpTest extends LinearOpMode {
                 rightBackPower  /= max;
             }
 
-            leftArmServo.setPower(gamepad1.left_stick_y);
-            rightArmServo.setPower(gamepad1.left_stick_y*-1);
+            //leftArmServo.setPower(gamepad1.left_stick_y);
+            //rightArmServo.setPower(gamepad1.left_stick_y*-1);
 
             if (gamepad1.right_bumper){
                 leftSlideServo.setPosition(0);
@@ -116,12 +117,12 @@ public class TeleOpTest extends LinearOpMode {
 
 
             // Send calculated powers
-            /*
+
             leftFrontDrive.setPower(leftFrontPower);
             rightFrontDrive.setPower(rightFrontPower);
             leftBackDrive.setPower(leftBackPower);
             rightBackDrive.setPower(rightBackPower);
-            */
+
         }
 
     }
