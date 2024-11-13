@@ -15,7 +15,7 @@ public class MainTeleOpB extends LinearOpMode
     @Override
     public void runOpMode() {
 
-        robot.wheelSetUp();
+        robot.wheelSetUpB();
         robot.servoSetUpB();
         robot.motorSetUpB();
 

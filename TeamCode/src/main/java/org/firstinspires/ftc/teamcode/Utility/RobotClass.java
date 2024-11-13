@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.Utility;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.CRServo;
 
@@ -30,8 +29,9 @@ public class RobotClass {
         //A
     public Servo leftSlideServo;
     public Servo rightSlideServo;
-    public CRServo leftArmServo;
+    public Servo leftSlideServo;
     public CRServo rightArmServo;
+    public CRServo leftArmServo;
     public CRServo intakeServo;
 
         //B
@@ -52,31 +52,45 @@ public class RobotClass {
     }
 
     //Methods
-    public void wheelSetUp(){
+    public void wheelSetUpA(){
 
         leftFrontDrive  = myOpMode.hardwareMap.get(DcMotor.class, "leftfront_drive");
         leftBackDrive  = myOpMode.hardwareMap.get(DcMotor.class, "leftback_drive");
         rightFrontDrive = myOpMode.hardwareMap.get(DcMotor.class, "rightfront_drive");
         rightBackDrive = myOpMode.hardwareMap.get(DcMotor.class, "rightback_drive");
 
-        leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
-        leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
-        rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
-        rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
+        leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
+        leftBackDrive.setDirection(DcMotor.Direction.FORWARD);
+        rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
+        rightBackDrive.setDirection(DcMotor.Direction.REVERSE);
+
+    }
+
+    public void wheelSetUpB(){
+
+        leftFrontDrive  = myOpMode.hardwareMap.get(DcMotor.class, "leftfront_drive");
+        leftBackDrive  = myOpMode.hardwareMap.get(DcMotor.class, "leftback_drive");
+        rightFrontDrive = myOpMode.hardwareMap.get(DcMotor.class, "rightfront_drive");
+        rightBackDrive = myOpMode.hardwareMap.get(DcMotor.class, "rightback_drive");
+
+        leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
+        leftBackDrive.setDirection(DcMotor.Direction.FORWARD);
+        rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
+        rightBackDrive.setDirection(DcMotor.Direction.REVERSE);
 
     }
 
     public void servoSetUpA(){
 
-        leftSlideServo = myOpMode.hardwareMap.get(Servo.class, "left_slide");
         rightSlideServo = myOpMode.hardwareMap.get(Servo.class, "right_slide");
-        leftArmServo = myOpMode.hardwareMap.get(CRServo.class, "left_arm");
+        leftSlideServo = myOpMode.hardwareMap.get(Servo.class, "left_slide");
         rightArmServo = myOpMode.hardwareMap.get(CRServo.class, "right_arm");
+        leftArmServo = myOpMode.hardwareMap.get(CRServo.class, "left_arm");
         intakeServo = myOpMode.hardwareMap.get(CRServo.class, "intake");
     }
     public void motorSetUpA(){
-
-
+        rightVerticalSlide = myOpMode.hardwareMap.get(DcMotor.class, "right_vertical");
+        leftVerticalSlide = myOpMode.hardwareMap.get(DcMotor.class, "left_vertical");
     }
 
     public void servoSetUpB()
