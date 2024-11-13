@@ -1,10 +1,10 @@
 CONTROL HUB
 
 Motors
-0 - rightback_drive
-1 - rightfront_drive
-2 - leftback_drive
-3 - leftfront_drive
+0 - leftfront_drive
+1 - leftback_drive
+2 - rightfront_drive
+3 - rightback_drive
 
 Motor Encoders
 0 -
