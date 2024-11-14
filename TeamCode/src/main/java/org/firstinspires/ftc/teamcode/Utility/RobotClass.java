@@ -17,12 +17,21 @@ public class RobotClass {
 
     //Other Motors
 
+        //A
     public DcMotor rightVerticalSlide;
     public DcMotor leftVerticalSlide;
 
+        //B
+
+    public DcMotor leftViper;
+    public DcMotor rightViper;
+    public DcMotor armMotorB;
+
     //Servos
-    public Servo rightSlideServo;
+
+        //A
     public Servo leftSlideServo;
+    public Servo rightSlideServo;
     public CRServo rightArmServo;
     public CRServo leftArmServo;
     public CRServo intakeServo;
