@@ -6,13 +6,13 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Utility.RobotClass;
 import org.firstinspires.ftc.teamcode.Utility.Toggles;
-import org.firstinspires.ftc.teamcode.Utility.Positions;
+import org.firstinspires.ftc.teamcode.Utility.PositionsA;
 
 @TeleOp(name="TeleOpA", group="Main")
 public class MainTeleOpA extends LinearOpMode {
     RobotClass robot = new RobotClass(this);
     Toggles toggles = new Toggles(this);
-    Positions positions = new Positions();
+    PositionsA positions = new PositionsA();
     private ElapsedTime runtime = new ElapsedTime();
     @Override
     public void runOpMode() {

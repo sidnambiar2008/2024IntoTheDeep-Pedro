@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.Utility;
 
-public class Positions {
+public class PositionsA {
 public double rightSlideIn = 0.15;
 public double rightSlideOut = 0;
 public double leftSlideIn = 0.85;
