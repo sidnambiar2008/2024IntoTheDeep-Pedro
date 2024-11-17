@@ -8,9 +8,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.Utility.RobotClass;
+import org.firstinspires.ftc.teamcode.Subsystems.RobotClass;
 
-@TeleOp(name="TeleTest", group="Linear OpMode")
+@TeleOp(name="TeleTest", group="Test")
 public class TeleOpTest extends LinearOpMode {
     RobotClass robot = new RobotClass(this);
     private ElapsedTime runtime = new ElapsedTime();

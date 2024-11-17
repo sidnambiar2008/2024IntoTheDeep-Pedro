@@ -1,12 +1,12 @@
-package org.firstinspires.ftc.teamcode.Main;
+package org.firstinspires.ftc.teamcode.CompOpModes.TeleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.Utility.RobotClass;
+import org.firstinspires.ftc.teamcode.Subsystems.RobotClass;
 
-@TeleOp(name="TeleopB", group="Main")
+@TeleOp(name="TeleopB", group="TeleOp")
 public class MainTeleOpB extends LinearOpMode
 {
     RobotClass robot = new RobotClass(this);
