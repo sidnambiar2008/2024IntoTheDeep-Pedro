@@ -1,0 +1,58 @@
+package org.firstinspires.ftc.teamcode.Subsystems;
+
+import com.acmerobotics.dashboard.config.Config;
+import com.qualcomm.robotcore.hardware.AnalogInput;
+import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
+
+@Config
+public class IntakeArm implements Subsystem {
+
+    //Devices
+    public static Servo leftLinear;
+    public static Servo rightLinear;
+    public static CRServo rightArm;
+    public static CRServo leftArm;
+    public static CRServo intake;
+    public static AnalogInput leftArmAnalog;
+    public static AnalogInput rightArmAnalog;
+
+    //Positions
+    public static double RIGHT_SLIDE_RETRACT = 0.15;
+    public static double RIGHT_SLIDE_EXTEND = 0;
+    public static double LEFT_SLIDE_RETRACT = 0.85;
+    public static double LEFT_SLIDE_EXTEND = 1;
+    public static double INTAKE_PULL_IN = -0.4;
+    public static double INTAKE_PULL_OUT = 0.4;
+
+    public IntakeArm(HardwareMap map) {
+        //TODO Reverse directions if applicable
+        leftLinear = map.get(Servo.class, "left_linear");
+        rightLinear = map.get(Servo.class, "right_linear");
+        leftArm = map.get(CRServo.class, "leftArm");
+        rightArm = map.get(CRServo.class, "right_arm");
+        intake = map.get(CRServo.class, "intake");
+        leftArmAnalog = map.get(AnalogInput.class, "left_analog");
+        rightArmAnalog = map.get(AnalogInput.class, "right_analog");
+    }
+
+    public void setLinear(double pos) {
+        leftLinear.setPosition(pos);
+        rightLinear.setPosition(pos);
+    }
+
+    public void setArm(double pow) {
+        leftArm.setPower(pow);
+        rightArm.setPower(pow);
+    }
+
+    @Override
+    public void toInit(){
+        //startupcode
+    }
+
+    @Override
+    public void update(){
+    }
+}

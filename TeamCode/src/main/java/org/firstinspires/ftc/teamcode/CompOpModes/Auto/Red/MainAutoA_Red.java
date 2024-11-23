@@ -1,8 +1,10 @@
 package org.firstinspires.ftc.teamcode.CompOpModes.Auto.Red;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
-@Autonomous(name="MainAuto", group="Auto" )
+@Disabled
+@Autonomous(name="MainAutoRedA", group="Auto" )
 public class MainAutoA_Red {
     
 }

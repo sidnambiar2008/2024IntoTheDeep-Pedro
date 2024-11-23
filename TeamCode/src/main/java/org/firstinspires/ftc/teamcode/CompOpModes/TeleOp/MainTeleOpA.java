@@ -4,22 +4,23 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.Subsystems.RobotClass;
+import org.firstinspires.ftc.teamcode.Subsystems.RobotClassA;
 import org.firstinspires.ftc.teamcode.Utility.Toggles;
 import org.firstinspires.ftc.teamcode.Utility.PositionsA;
 
 @TeleOp(name="TeleOpA", group="TeleOp")
 public class MainTeleOpA extends LinearOpMode {
-    RobotClass robot = new RobotClass(this);
+    RobotClassA robot = new RobotClassA(this);
     Toggles toggles = new Toggles(this);
     PositionsA positions = new PositionsA();
     private ElapsedTime runtime = new ElapsedTime();
     @Override
     public void runOpMode() {
 
-        robot.wheelSetUpA();
-        robot.servoSetUpA();
-        robot.motorSetUpA();
+        robot.wheelSetUp();
+        robot.servoSetUp();
+        robot.motorSetUp();
+        robot.analogSetUp();
 
         waitForStart();
         runtime.reset();
@@ -65,9 +66,9 @@ public class MainTeleOpA extends LinearOpMode {
 
             //Vertical Slide (Right Stick Y)
             {
-                if (!(gamepad1.right_stick_y == 0)){
+                if (gamepad1.right_stick_y != 0){
                     //figure out PID controller
-                    robot.rightVerticalSlide.setPower(gamepad1.right_stick_y);
+                    robot.topVertical.setPower(gamepad1.right_stick_y);
                 }
             }
 
@@ -75,11 +76,11 @@ public class MainTeleOpA extends LinearOpMode {
             {
                 toggles.toggle("right_bumper");
                 if (toggles.rBumpToggle){
-                    robot.rightSlideServo.setPosition(positions.rightSlideOut);
-                    robot.leftSlideServo.setPosition(positions.leftSlideOut);
+                    robot.rightLinear.setPosition(positions.rightSlideOut);
+                    robot.leftLinear.setPosition(positions.leftSlideOut);
                 } else {
-                    robot.rightSlideServo.setPosition(positions.rightSlideIn);
-                    robot.leftSlideServo.setPosition(positions.leftSlideIn);
+                    robot.rightLinear.setPosition(positions.rightSlideIn);
+                    robot.leftLinear.setPosition(positions.leftSlideIn);
                 }
             }
 
@@ -87,9 +88,9 @@ public class MainTeleOpA extends LinearOpMode {
             {
                 //Right trigger spin in, left trigger spin out
                 if (gamepad1.right_trigger > 0) {
-                    robot.intakeServo.setPower(-1 * (gamepad1.right_trigger) / 2);
+                    robot.intake.setPower(-1 * (gamepad1.right_trigger) / 2);
                 } else if (gamepad1.left_trigger > 0){
-                    robot.intakeServo.setPower(1 * (gamepad1.left_trigger) / 2);
+                    robot.intake.setPower(1 * (gamepad1.left_trigger) / 2);
                 }
             }
 
