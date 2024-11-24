@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 @Config
 public class IntakeArm implements Subsystem {
 
-    //Devices
+    //Hardware
     public static Servo leftLinear;
     public static Servo rightLinear;
     public static CRServo rightArm;
@@ -18,7 +18,7 @@ public class IntakeArm implements Subsystem {
     public static AnalogInput leftArmAnalog;
     public static AnalogInput rightArmAnalog;
 
-    //Positions
+    //Software
     public static double RIGHT_SLIDE_RETRACT = 0.15;
     public static double RIGHT_SLIDE_EXTEND = 0;
     public static double LEFT_SLIDE_RETRACT = 0.85;
@@ -26,6 +26,7 @@ public class IntakeArm implements Subsystem {
     public static double INTAKE_PULL_IN = -0.4;
     public static double INTAKE_PULL_OUT = 0.4;
 
+    //Constructor
     public IntakeArm(HardwareMap map) {
         //TODO Reverse directions if applicable
         leftLinear = map.get(Servo.class, "left_linear");
@@ -37,6 +38,7 @@ public class IntakeArm implements Subsystem {
         rightArmAnalog = map.get(AnalogInput.class, "right_analog");
     }
 
+    //Methods
     public void setLinear(double lPos, double rPos) {
         leftLinear.setPosition(lPos);
         rightLinear.setPosition(rPos);
@@ -51,6 +53,7 @@ public class IntakeArm implements Subsystem {
         intake.setPower(pow);
     }
 
+    //Interface Methods
     @Override
     public void toInit(){
         //startupcode
@@ -59,4 +62,5 @@ public class IntakeArm implements Subsystem {
     @Override
     public void update(){
     }
+
 }
