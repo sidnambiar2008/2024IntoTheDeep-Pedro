@@ -5,6 +5,6 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 @Disabled
 @Autonomous(name="MainAutoBlueA", group="Auto" )
-public class MainAutoA_Blue {
+public class MainAuto_Blue {
     
 }

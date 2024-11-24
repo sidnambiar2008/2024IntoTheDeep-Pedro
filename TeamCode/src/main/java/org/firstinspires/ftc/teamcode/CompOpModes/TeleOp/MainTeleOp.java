@@ -4,15 +4,15 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.Subsystems.RobotClassA;
+import org.firstinspires.ftc.teamcode.Subsystems.RobotClass;
 import org.firstinspires.ftc.teamcode.Utility.Toggles;
-import org.firstinspires.ftc.teamcode.Utility.PositionsA;
+import org.firstinspires.ftc.teamcode.Utility.Positions;
 
 @TeleOp(name="TeleOpA", group="TeleOp")
-public class MainTeleOpA extends LinearOpMode {
-    RobotClassA robot = new RobotClassA(this);
+public class MainTeleOp extends LinearOpMode {
+    RobotClass robot = new RobotClass(this);
     Toggles toggles = new Toggles(this);
-    PositionsA positions = new PositionsA();
+    Positions positions = new Positions();
     private ElapsedTime runtime = new ElapsedTime();
     @Override
     public void runOpMode() {

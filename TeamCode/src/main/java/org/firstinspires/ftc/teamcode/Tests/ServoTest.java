@@ -7,16 +7,15 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.Subsystems.RobotClassA;
+import org.firstinspires.ftc.teamcode.Subsystems.RobotClass;
 import org.firstinspires.ftc.teamcode.Utility.Toggles;
-import org.firstinspires.ftc.teamcode.Utility.PositionsA;
 
 @Config
 @TeleOp(name="ServoTest", group="Test")
 public class ServoTest extends LinearOpMode {
 
     Toggles toggles = new Toggles(this);
-    RobotClassA robot = new RobotClassA(this);
+    RobotClass robot = new RobotClass(this);
     private ElapsedTime runtime = new ElapsedTime();
     public Gamepad currentGamepad1 = new Gamepad();
     public Gamepad previousGamepad1 = new Gamepad();

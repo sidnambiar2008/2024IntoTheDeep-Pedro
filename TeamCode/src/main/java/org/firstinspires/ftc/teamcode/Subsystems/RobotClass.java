@@ -6,12 +6,10 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.CRServo;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 
-public class RobotClassA {
+public class RobotClass {
     private LinearOpMode myOpMode = null;
 
     //Wheel Motors
@@ -42,7 +40,7 @@ public class RobotClassA {
     public static double speedVar = 1;
 
     // Define a constructor that allows the OpMode to pass a reference to itself.
-    public RobotClassA(LinearOpMode opmode) {
+    public RobotClass(LinearOpMode opmode) {
         myOpMode = opmode;
     }
 
