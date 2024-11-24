@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Subsystems.RobotClass;
 import org.firstinspires.ftc.teamcode.Utility.Toggles;
 import org.firstinspires.ftc.teamcode.Utility.Positions;
+import org.firstinspires.ftc.teamcode.Subsystems.IntakeArm;
 
 @TeleOp(name="TeleOpA", group="TeleOp")
 public class MainTeleOp extends LinearOpMode {
@@ -16,7 +17,6 @@ public class MainTeleOp extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     @Override
     public void runOpMode() {
-
         robot.wheelSetUp();
         robot.servoSetUp();
         robot.motorSetUp();

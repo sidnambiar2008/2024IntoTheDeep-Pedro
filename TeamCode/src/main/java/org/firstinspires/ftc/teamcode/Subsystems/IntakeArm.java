@@ -37,14 +37,18 @@ public class IntakeArm implements Subsystem {
         rightArmAnalog = map.get(AnalogInput.class, "right_analog");
     }
 
-    public void setLinear(double pos) {
-        leftLinear.setPosition(pos);
-        rightLinear.setPosition(pos);
+    public void setLinear(double lPos, double rPos) {
+        leftLinear.setPosition(lPos);
+        rightLinear.setPosition(rPos);
     }
 
-    public void setArm(double pow) {
-        leftArm.setPower(pow);
-        rightArm.setPower(pow);
+    public void setArm(double lPow, double rPow) {
+        leftArm.setPower(lPow);
+        rightArm.setPower(rPow);
+    }
+
+    public void setIntake(double pow) {
+        intake.setPower(pow);
     }
 
     @Override
