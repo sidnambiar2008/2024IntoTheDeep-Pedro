@@ -30,10 +30,16 @@ public class ShoddyRobotClass {
     public CRServo rightArm;
     public CRServo leftArm;
     public CRServo intake;
+    public CRServo leftSwivel;
+    public CRServo rightSwivel;
+    public Servo wrist;
+    public Servo claw;
 
     //Analog
     public AnalogInput leftArmAnalog;
     public AnalogInput rightArmAnalog;
+    public AnalogInput leftSwivelAnalog;
+    public AnalogInput rightSwivelAnalog;
 
     //Other Variables
 
@@ -65,6 +71,10 @@ public class ShoddyRobotClass {
         rightArm = myOpMode.hardwareMap.get(CRServo.class, "right_arm");
         leftArm = myOpMode.hardwareMap.get(CRServo.class, "left_arm");
         intake = myOpMode.hardwareMap.get(CRServo.class, "intake");
+        leftSwivel = myOpMode.hardwareMap.get(CRServo.class, "left_swivel");
+        rightSwivel = myOpMode.hardwareMap.get(CRServo.class, "right_swivel");
+        wrist = myOpMode.hardwareMap.get(Servo.class, "wrist");
+        claw = myOpMode.hardwareMap.get(Servo.class, "claw");
     }
     public void motorSetUp(){
         topVertical = myOpMode.hardwareMap.get(DcMotor.class, "top_vertical");

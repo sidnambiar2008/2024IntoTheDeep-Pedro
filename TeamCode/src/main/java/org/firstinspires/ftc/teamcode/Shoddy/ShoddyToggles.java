@@ -10,7 +10,8 @@ public class ShoddyToggles {
     public Gamepad previousGamepad1 = new Gamepad();
     public boolean lBumpToggle = false;
     public boolean rBumpToggle = false;
-    public boolean slowModeToggle;
+    public boolean slowModeToggle = false;
+    public boolean aToggle = false;
 
 
     public ShoddyToggles(LinearOpMode opmode) {
@@ -23,19 +24,26 @@ public class ShoddyToggles {
         currentGamepad1.copy(myOpMode.gamepad1);
     }
 
-    public void toggle(String button){
-        if (button.equals("right_bumper")){
-            if(currentGamepad1.right_bumper && previousGamepad1.right_bumper){
+    public void toggle(String button) {
+        if (button.equals("right_bumper")) {
+            if (currentGamepad1.right_bumper && !previousGamepad1.right_bumper) {
                 rBumpToggle = !rBumpToggle;
             }
-        } else if (button.equals("left_bumper")){
-            if(currentGamepad1.left_bumper && previousGamepad1.left_bumper){
+        } else if (button.equals("left_bumper")) {
+            if (currentGamepad1.left_bumper && !previousGamepad1.left_bumper) {
                 lBumpToggle = !lBumpToggle;
             }
         } else if (button.equals("x")) {
-            if (currentGamepad1.x && previousGamepad1.x) {
+            if (currentGamepad1.x && !previousGamepad1.x) {
                 slowModeToggle = !slowModeToggle;
             }
+        } else if (button.equals("a")) {
+            if (currentGamepad1.a && !previousGamepad1.a) {
+                aToggle = !aToggle;
+            }
         }
+    }
+    public boolean toggle(boolean bool){
+        return !bool;
     }
 }
