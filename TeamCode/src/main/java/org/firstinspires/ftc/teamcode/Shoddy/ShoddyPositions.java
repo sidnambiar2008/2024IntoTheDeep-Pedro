@@ -21,10 +21,10 @@ public class ShoddyPositions {
     public boolean CLAW_DOWN = true;
 
     //Doubles
-    public double clawOpen = 0.8;
-    public double clawClosed = 0.55;
-    public double wristPar = 0.65;
-    public double wristPerp = 1;
+    public double clawOpen = 0.65;
+    public double clawClosed = 0.53;
+    public double wristPar = 0.25;
+    public double wristPerp = 0.59;
 
     //Drive
     //Doubles

@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Shoddy;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -37,6 +38,11 @@ public class ShoddyTeleOp extends LinearOpMode {
     int armPos2;
     double pid2, targetArmAngle2, ff2, currentArmAngle2, outtakeArmPower;
 
+    //public static double servoPar = 0.25;
+    //public static double servoPerp = 5.9;
+    //public static double claw;
+    //public static double leftPower;
+
     //ENUMS
     public enum RightStickY{
         OUTTAKE_VERTICAL,
@@ -58,6 +64,7 @@ public class ShoddyTeleOp extends LinearOpMode {
         r.rightArm.setDirection(DcMotorSimple.Direction.REVERSE);
         r.topVertical.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         r.bottomVertical.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         waitForStart();
         runtime.reset();
@@ -70,7 +77,7 @@ public class ShoddyTeleOp extends LinearOpMode {
             {
                 double max;
                 // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
-                double axial = gamepad1.left_stick_y;  // Note: pushing stick forward gives negative value
+                double axial = -gamepad1.left_stick_y;  // Note: pushing stick forward gives negative value
                 double lateral = gamepad1.left_stick_x;
                 double yaw = gamepad1.right_stick_x;
                 // Combine the joystick requests for each axis-motion to determine each wheel's power.
@@ -206,6 +213,8 @@ public class ShoddyTeleOp extends LinearOpMode {
             telemetry.addData("wristPos", r.wrist.getPosition());
             telemetry.addData("lForebarVolt", r.leftArmAnalog.getVoltage());
             telemetry.addData("rForebarVolt", r.rightArmAnalog.getVoltage());
+            telemetry.addData("lForebarPower", r.leftArm.getPower());
+            telemetry.addData("rForebarPower", r.rightArm.getPower());
             telemetry.addData("botVerticalPos", r.bottomVertical.getCurrentPosition());
             telemetry.addData("topVerticalPos", r.topVertical.getCurrentPosition());
             telemetry.addData("topVerticalPos", r.topVertical.getCurrentPosition());

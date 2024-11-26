@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Shoddy;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.CRServo;
 
@@ -59,10 +60,10 @@ public class ShoddyRobotClass {
         RF = myOpMode.hardwareMap.get(DcMotor.class, "right_front");
         RB = myOpMode.hardwareMap.get(DcMotor.class, "right_back");
 
-        LF.setDirection(DcMotor.Direction.FORWARD);
-        LB.setDirection(DcMotor.Direction.FORWARD);
-        RF.setDirection(DcMotor.Direction.REVERSE);
-        RB.setDirection(DcMotor.Direction.REVERSE);
+        LF.setDirection(DcMotor.Direction.REVERSE);
+        LB.setDirection(DcMotor.Direction.REVERSE);
+        RF.setDirection(DcMotor.Direction.FORWARD);
+        RB.setDirection(DcMotor.Direction.FORWARD);
 
     }
     public void servoSetUp(){
