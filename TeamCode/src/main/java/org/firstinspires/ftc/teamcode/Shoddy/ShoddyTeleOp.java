@@ -10,38 +10,50 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.arcrobotics.ftclib.controller.PIDController;
 import com.acmerobotics.dashboard.FtcDashboard;
 
+import org.firstinspires.ftc.teamcode.Utility.AbsoluteAnalogEncoder;
+
 @Config
 @TeleOp(name="ShoddyTeleOp", group="TeleOp")
 public class ShoddyTeleOp extends LinearOpMode {
 
-    ShoddyRobotClass r = new ShoddyRobotClass(this);
-    ShoddyToggles t = new ShoddyToggles(this);
-    ShoddyPositions po = new ShoddyPositions();
-    private ElapsedTime runtime = new ElapsedTime();
+    //public DcMotor verticalEnc;
 
-    //First PID
+    ShoddyRobotClass r;
+    ShoddyToggles t;
+    ShoddyPositions po;
+    private ElapsedTime runtime;
+
+    AbsoluteAnalogEncoder rightV4BEnc;
+    AbsoluteAnalogEncoder leftV4BEnc;
+    AbsoluteAnalogEncoder rightSwivelEnc;
+    AbsoluteAnalogEncoder leftSwivelEnc;
+
+    //First PID for V4B
     private PIDController controller;
-    public static double p = 0.02, i = 0, d = 0.0002;
-    public static double f = -0.15;
+    public static double p = 0, i = 0, d = 0;
+    public static double f = 0;
     private final double ticks_in_degree = 144.0 / 180.0;
-    public static int target;
-    public static double offset = -25;
+    public static int V4BTarget;
     double armPos;
-    double pid, targetArmAngle, ff, currentArmAngle, intakeArmPower;
+    double pid, targetArmAngle, ff, currentArmAngle, V4BPower;
 
-    //Second PID
+    //Second PID for Vertical Slides
     private PIDController controller2;
-    public static double p2 = 0.02, i2 = 0, d2 = 0.0002;
+    public static double p2 = 0, i2 = 0, d2 = 0;
     public static double f2 = 0;
     private final double ticks_in_degree2 = 144.0 / 180.0;
-    public static int target2;
-    int armPos2;
-    double pid2, targetArmAngle2, ff2, currentArmAngle2, outtakeArmPower;
+    public static int vertSlidesTarget;
+    double armPos2;
+    double pid2, targetArmAngle2, ff2, currentArmAngle2, verticalSlidesPower;
 
-    //public static double servoPar = 0.25;
-    //public static double servoPerp = 5.9;
-    //public static double claw;
-    //public static double leftPower;
+    //Third PID for Swivel
+    private PIDController controller3;
+    public static double p3 = 0, i3 = 0, d3 = 0;
+    public static double f3 = 0;
+    private final double ticks_in_degree3 = 144.0 / 180.0;
+    public static int swivelTarget;
+    double armPos3;
+    double pid3, targetArmAngle3, ff3, currentArmAngle3, swivelPower;
 
     //ENUMS
     public enum RightStickY{
@@ -55,6 +67,18 @@ public class ShoddyTeleOp extends LinearOpMode {
 
     @Override
     public void runOpMode() {
+        r = new ShoddyRobotClass(this);
+        t = new ShoddyToggles(this);
+        po = new ShoddyPositions();
+        runtime = new ElapsedTime();
+
+        rightV4BEnc = new AbsoluteAnalogEncoder(r.rightArmAnalog);
+        leftV4BEnc = new AbsoluteAnalogEncoder(r.leftArmAnalog);
+        rightSwivelEnc = new AbsoluteAnalogEncoder(r.rightSwivelAnalog);
+        leftSwivelEnc = new AbsoluteAnalogEncoder(r.leftSwivelAnalog);
+
+        //verticalEnc = hardwareMap.get(DcMotor.class, "empty_motor");
+
         r.wheelSetUp();
         r.servoSetUp();
         r.motorSetUp();
@@ -65,6 +89,10 @@ public class ShoddyTeleOp extends LinearOpMode {
         r.topVertical.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         r.bottomVertical.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+        controller = new PIDController(p, i, d);
+        controller2 = new PIDController(p2, i2, d2);
+        controller3 = new PIDController(p3, i3, d3);
+
 
         waitForStart();
         runtime.reset();
@@ -135,16 +163,19 @@ public class ShoddyTeleOp extends LinearOpMode {
             {
                 t.toggle("right_bumper");
                 if (t.rBumpToggle) {
-                    r.claw.setPosition(po.clawOpen);
+                    po.CLAW_CLOSED_BOOL = false;
+                    r.claw.setPosition(po.CLAW_OPEN);
                 } else {
-                    r.claw.setPosition(po.clawClosed);
+                    po.CLAW_CLOSED_BOOL = true;
+                    r.claw.setPosition(po.CLAW_CLOSED);
                 }
 
                 t.toggle("left_bumper");
                 if (t.lBumpToggle) {
-                    r.wrist.setPosition(po.wristPerp);
+                    po.CLAW_DOWN_BOOL = false;
+                    r.wrist.setPosition(po.WRIST_PERP);
                 } else {
-                    r.wrist.setPosition(po.wristPar);
+                    r.wrist.setPosition(po.WRIST_PAR);
                 }
             }
 
@@ -158,20 +189,37 @@ public class ShoddyTeleOp extends LinearOpMode {
                 }
             }
 
-            //Linear Slides (A)
+            //Auto Intake 100% (A)
             {
                 t.toggle("a");
                 if (t.aToggle){
-                        r.rightLinear.setPosition(po.rightSlideOut);
-                        r.leftLinear.setPosition(po.leftSlideOut);
-                    } else {
-                        r.rightLinear.setPosition(po.rightSlideIn);
-                        r.leftLinear.setPosition(po.leftSlideIn);
+                    po.INTAKE_IN_BOOL = false;
+                    r.rightLinear.setPosition(po.RIGHT_SLIDE_OUT_100);
+                    r.leftLinear.setPosition(po.LEFT_SLIDE_OUT_100);
+                    setV4BPIDF(po.V4B_INTAKE_POS);
+                } else {
+                    po.INTAKE_IN_BOOL = true;
+                    r.rightLinear.setPosition(po.RIGHT_SLIDE_IN);
+                    r.leftLinear.setPosition(po.LEFT_SLIDE_IN);
+                    setV4BPIDF(po.V4B_REST_POS);
                     }
             }
 
             // (Y)
-            {}
+            {
+                t.toggle("y");
+                if (t.yToggle){
+                    po.INTAKE_IN_BOOL = false;
+                    r.rightLinear.setPosition(po.RIGHT_SLIDE_OUT_50);
+                    r.leftLinear.setPosition(po.LEFT_SLIDE_OUT_50);
+                    setV4BPIDF(po.V4B_INTAKE_POS);
+                } else {
+                    po.INTAKE_IN_BOOL = true;
+                    r.rightLinear.setPosition(po.RIGHT_SLIDE_IN);
+                    r.leftLinear.setPosition(po.LEFT_SLIDE_IN);
+                    setV4BPIDF(po.V4B_REST_POS);
+                }
+            }
 
             //Switch RightStick Y (B)
             {
@@ -215,9 +263,9 @@ public class ShoddyTeleOp extends LinearOpMode {
             telemetry.addData("rForebarVolt", r.rightArmAnalog.getVoltage());
             telemetry.addData("lForebarPower", r.leftArm.getPower());
             telemetry.addData("rForebarPower", r.rightArm.getPower());
-            telemetry.addData("botVerticalPos", r.bottomVertical.getCurrentPosition());
-            telemetry.addData("topVerticalPos", r.topVertical.getCurrentPosition());
-            telemetry.addData("topVerticalPos", r.topVertical.getCurrentPosition());
+            //telemetry.addData("botVerticalPos", r.bottomVertical.getCurrentPosition());
+            //telemetry.addData("topVerticalPos", r.topVertical.getCurrentPosition());
+            //telemetry.addData("topVerticalPos", r.topVertical.getCurrentPosition());
             telemetry.addData("leftLinear", r.leftLinear.getPosition());
             telemetry.addData("rightLinear", r.rightLinear.getPosition());
             telemetry.update();
@@ -225,19 +273,21 @@ public class ShoddyTeleOp extends LinearOpMode {
         }
     }
     // Methods
-//    private void SetInttakePIDTarget(int target) {
-//        controller.setPID(p, i, d);
-//        pid = controller.calculate(armPos, target);
-//        targetArmAngle = Math.toRadians((target - offset) / ticks_in_degree);
-//        ff = Math.cos(targetArmAngle) * f;
-//        currentArmAngle = Math.toRadians((armPos - offset) / ticks_in_degree);
-//
-//        intakeArmPower = pid + ff;
-//
-//        //intake.setpower
-//    }
+    private void setV4BPIDF(int target) {
+        controller.setPID(p, i, d);
+        armPos = rightV4BEnc.getCurrentPosition();
+        pid = controller.calculate(armPos, target);
+        targetArmAngle = Math.toRadians((target) / ticks_in_degree);
+        ff = Math.cos(targetArmAngle) * f;
+        currentArmAngle = Math.toRadians((armPos) / ticks_in_degree);
 
-    private void SetOuttakePIDTarget(int target2) {
+        V4BPower = pid + ff;
+
+        r.leftArm.setPower(V4BPower);
+        r.rightArm.setPower(V4BPower);
+    }
+
+    private void setVerticalSlidesPIDF(int target2) {
         controller2.setPID(p2, i2, d2);
         armPos2 = r.topVertical.getCurrentPosition();
         pid2 = controller2.calculate(armPos2, target2);
@@ -245,10 +295,24 @@ public class ShoddyTeleOp extends LinearOpMode {
         ff2 = Math.cos(targetArmAngle2) * f2;
         currentArmAngle2 = Math.toRadians((armPos2) / ticks_in_degree2);
 
-        outtakeArmPower = pid2; // + ff2;
+        verticalSlidesPower = pid2 + ff2;
 
-        r.topVertical.setPower(outtakeArmPower);
-        r.bottomVertical.setPower(outtakeArmPower);
+        r.topVertical.setPower(verticalSlidesPower);
+        r.bottomVertical.setPower(verticalSlidesPower);
+    }
+
+    private void setSwivelPIDF(int target3) {
+        controller3.setPID(p3, i3, d3);
+        armPos3 = rightSwivelEnc.getCurrentPosition();
+        pid3 = controller3.calculate(armPos3, target3);
+        targetArmAngle3 = Math.toRadians((target3) / ticks_in_degree3);
+        ff3 = Math.cos(targetArmAngle3) * f3;
+        currentArmAngle3 = Math.toRadians((armPos3) / ticks_in_degree3);
+
+        swivelPower = pid3 + ff3;
+
+        r.leftSwivel.setPower(swivelPower);
+        r.rightSwivel.setPower(swivelPower);
     }
 }
 

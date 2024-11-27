@@ -12,6 +12,7 @@ public class ShoddyToggles {
     public boolean rBumpToggle = false;
     public boolean slowModeToggle = false;
     public boolean aToggle = false;
+    public boolean yToggle = false;
 
 
     public ShoddyToggles(LinearOpMode opmode) {
@@ -40,6 +41,10 @@ public class ShoddyToggles {
         } else if (button.equals("a")) {
             if (currentGamepad1.a && !previousGamepad1.a) {
                 aToggle = !aToggle;
+            }
+        } else if (button.equals("y")) {
+            if (currentGamepad1.y && !previousGamepad1.y) {
+                yToggle = !yToggle;
             }
         }
     }

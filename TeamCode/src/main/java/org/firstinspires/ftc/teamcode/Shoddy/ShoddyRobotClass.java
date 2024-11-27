@@ -7,6 +7,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.CRServo;
 
+import org.firstinspires.ftc.teamcode.Utility.AbsoluteAnalogEncoder;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -24,6 +26,7 @@ public class ShoddyRobotClass {
     //Other Motors
     public DcMotor topVertical;
     public DcMotor bottomVertical;
+    //public DcMotor emptyMotor;
 
     //Servos
     public Servo leftLinear;
@@ -41,6 +44,10 @@ public class ShoddyRobotClass {
     public AnalogInput rightArmAnalog;
     public AnalogInput leftSwivelAnalog;
     public AnalogInput rightSwivelAnalog;
+
+    public AbsoluteAnalogEncoder rightV4BEnc;
+    public AbsoluteAnalogEncoder leftV4BEnc;
+    public AbsoluteAnalogEncoder rightSwivelEnc;
 
     //Other Variables
 
@@ -76,15 +83,24 @@ public class ShoddyRobotClass {
         rightSwivel = myOpMode.hardwareMap.get(CRServo.class, "right_swivel");
         wrist = myOpMode.hardwareMap.get(Servo.class, "wrist");
         claw = myOpMode.hardwareMap.get(Servo.class, "claw");
+
+        //rightSwivel.setDirection(DcMotorSimple.Direction.REVERSE);
+        //rightArm.setDirection(DcMotorSimple.Direction.REVERSE);
     }
     public void motorSetUp(){
         topVertical = myOpMode.hardwareMap.get(DcMotor.class, "top_vertical");
         bottomVertical = myOpMode.hardwareMap.get(DcMotor.class, "bottom_vertical");
+        //emptyMotor = myOpMode.hardwareMap.get(DcMotor.class, "emptyMotor");
+        //topVertical.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
     public void analogSetUp(){
         leftArmAnalog = myOpMode.hardwareMap.analogInput.get("left_analog");
         rightArmAnalog = myOpMode.hardwareMap.analogInput.get("right_analog");
+        rightSwivelAnalog = myOpMode.hardwareMap.analogInput.get("right_swivel_analog");
+        rightV4BEnc = new AbsoluteAnalogEncoder(rightArmAnalog);
+        leftV4BEnc = new AbsoluteAnalogEncoder(leftArmAnalog);
+        rightSwivelEnc = new AbsoluteAnalogEncoder(rightSwivelAnalog, 3.3, -40);
     }
 
     public void driveRobot(double lf, double rf, double lb, double rb){
