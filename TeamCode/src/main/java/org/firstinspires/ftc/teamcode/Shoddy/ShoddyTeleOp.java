@@ -28,6 +28,9 @@ public class ShoddyTeleOp extends LinearOpMode {
     AbsoluteAnalogEncoder rightSwivelEnc;
     AbsoluteAnalogEncoder leftSwivelEnc;
 
+    // variables for left and right intake slide positions
+    public static double positionLeft = .85, positionRight = .15;
+
     //First PID for V4B
     private PIDController controller;
     public static double p = 0, i = 0, d = 0;
@@ -191,33 +194,43 @@ public class ShoddyTeleOp extends LinearOpMode {
 
             //Auto Intake 100% (A)
             {
-                t.toggle("a");
-                if (t.aToggle){
-                    po.INTAKE_IN_BOOL = false;
-                    r.rightLinear.setPosition(po.RIGHT_SLIDE_OUT_100);
-                    r.leftLinear.setPosition(po.LEFT_SLIDE_OUT_100);
-                    setV4BPIDF(po.V4B_INTAKE_POS);
-                } else {
-                    po.INTAKE_IN_BOOL = true;
-                    r.rightLinear.setPosition(po.RIGHT_SLIDE_IN);
-                    r.leftLinear.setPosition(po.LEFT_SLIDE_IN);
-                    setV4BPIDF(po.V4B_REST_POS);
+                if (t.toggle("a")) {
+                    if (t.aToggle) {
+                        po.INTAKE_IN_BOOL = false;
+                        //r.rightLinear.setPosition(po.RIGHT_SLIDE_OUT_100);
+                        //r.leftLinear.setPosition(po.LEFT_SLIDE_OUT_100);
+                        positionRight = po.RIGHT_SLIDE_OUT_100;
+                        positionLeft = po.LEFT_SLIDE_OUT_100;
+                        setV4BPIDF(po.V4B_INTAKE_POS);
+                    } else {
+                        po.INTAKE_IN_BOOL = true;
+                        //r.rightLinear.setPosition(po.RIGHT_SLIDE_IN);
+                        //r.leftLinear.setPosition(po.LEFT_SLIDE_IN);
+                        positionRight = po.RIGHT_SLIDE_IN;
+                        positionLeft = po.LEFT_SLIDE_IN;
+                        setV4BPIDF(po.V4B_REST_POS);
                     }
+                }
             }
 
             // (Y)
             {
-                t.toggle("y");
-                if (t.yToggle){
-                    po.INTAKE_IN_BOOL = false;
-                    r.rightLinear.setPosition(po.RIGHT_SLIDE_OUT_50);
-                    r.leftLinear.setPosition(po.LEFT_SLIDE_OUT_50);
-                    setV4BPIDF(po.V4B_INTAKE_POS);
-                } else {
-                    po.INTAKE_IN_BOOL = true;
-                    r.rightLinear.setPosition(po.RIGHT_SLIDE_IN);
-                    r.leftLinear.setPosition(po.LEFT_SLIDE_IN);
-                    setV4BPIDF(po.V4B_REST_POS);
+                if (t.toggle("y")) {
+                    if (t.yToggle) {
+                        po.INTAKE_IN_BOOL = false;
+                        //r.rightLinear.setPosition(po.RIGHT_SLIDE_OUT_50);
+                        //r.leftLinear.setPosition(po.LEFT_SLIDE_OUT_50);
+                        positionRight = po.RIGHT_SLIDE_OUT_50;
+                        positionLeft = po.LEFT_SLIDE_OUT_50;
+                        setV4BPIDF(po.V4B_INTAKE_POS);
+                    } else {
+                        po.INTAKE_IN_BOOL = true;
+                        //r.rightLinear.setPosition(po.RIGHT_SLIDE_IN);
+                        //r.leftLinear.setPosition(po.LEFT_SLIDE_IN);
+                        positionRight = po.RIGHT_SLIDE_IN;
+                        positionLeft = po.LEFT_SLIDE_IN;
+                        setV4BPIDF(po.V4B_REST_POS);
+                    }
                 }
             }
 
@@ -254,6 +267,9 @@ public class ShoddyTeleOp extends LinearOpMode {
                 }
             }
 
+            // Set servo positions after all logic
+            r.rightLinear.setPosition(positionRight);
+            r.leftLinear.setPosition(positionLeft);
 
             //Telemetry
             telemetry.addData("rightStickY", rightStickY);
@@ -274,17 +290,17 @@ public class ShoddyTeleOp extends LinearOpMode {
     }
     // Methods
     private void setV4BPIDF(int target) {
-        controller.setPID(p, i, d);
-        armPos = rightV4BEnc.getCurrentPosition();
-        pid = controller.calculate(armPos, target);
-        targetArmAngle = Math.toRadians((target) / ticks_in_degree);
-        ff = Math.cos(targetArmAngle) * f;
-        currentArmAngle = Math.toRadians((armPos) / ticks_in_degree);
-
-        V4BPower = pid + ff;
-
-        r.leftArm.setPower(V4BPower);
-        r.rightArm.setPower(V4BPower);
+//        controller.setPID(p, i, d);
+//        armPos = rightV4BEnc.getCurrentPosition();
+//        pid = controller.calculate(armPos, target);
+//        targetArmAngle = Math.toRadians((target) / ticks_in_degree);
+//        ff = Math.cos(targetArmAngle) * f;
+//        currentArmAngle = Math.toRadians((armPos) / ticks_in_degree);
+//
+//        V4BPower = pid + ff;
+//
+//        r.leftArm.setPower(V4BPower);
+//        r.rightArm.setPower(V4BPower);
     }
 
     private void setVerticalSlidesPIDF(int target2) {

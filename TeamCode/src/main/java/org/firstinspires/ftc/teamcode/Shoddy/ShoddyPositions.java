@@ -8,12 +8,19 @@ public class ShoddyPositions {
     public boolean FOREBAR_UP_BOOL = true;
 
     //Doubles
-    public double RIGHT_SLIDE_IN = 0.15;
-    public double RIGHT_SLIDE_OUT_100 = 0;
-    public double LEFT_SLIDE_IN = 0.85;
-    public double LEFT_SLIDE_OUT_100 = 1;
-    public double RIGHT_SLIDE_OUT_50 = 0.075;
-    public double LEFT_SLIDE_OUT_50 = 0.925;
+//    public double RIGHT_SLIDE_IN = 0.15;
+//    public double RIGHT_SLIDE_OUT_100 = 0;
+//    public double LEFT_SLIDE_IN = 0.85;
+//    public double LEFT_SLIDE_OUT_100 = 1;
+//    public double RIGHT_SLIDE_OUT_50 = 0.075;
+//    public double LEFT_SLIDE_OUT_50 = 0.925;
+
+    public double RIGHT_SLIDE_IN = 0.18;
+    public double RIGHT_SLIDE_OUT_100 = 0.04;
+    public double LEFT_SLIDE_IN = 0.82;
+    public double LEFT_SLIDE_OUT_100 = 0.96;
+    public double RIGHT_SLIDE_OUT_50 = 0.11;
+    public double LEFT_SLIDE_OUT_50 = 0.89;
 
 
     //Outtake
