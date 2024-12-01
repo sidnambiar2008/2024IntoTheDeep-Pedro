@@ -42,11 +42,13 @@ public class ShoddyPositions {
     public double slowMultiplier = (0.5);
 
     //Random
-    public int V4B_TRANSFER_POS = 0;
-    public int V4B_REST_POS = 0;
-    public int V4B_INTAKE_POS = 0;
+    public int V4B_TRANSFER_POS = 85;
+    public int V4B_REST_POS = 180;
+    public int V4B_INTAKE_POS = 300;
 
     public int SWIVEL_DOWN = 270;
     public int SWIVEL_UP = 180;
+    public int VERTICAL_UP = -2650;
+    public int VERTICAL_DOWN = 785;
 
 }
