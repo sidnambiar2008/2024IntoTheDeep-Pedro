@@ -16,11 +16,14 @@ public class ShoddyPositions {
 //    public double LEFT_SLIDE_OUT_50 = 0.925;
 
     public double RIGHT_SLIDE_IN = 0.18;
+    public double RIGHT_SLIDE_IN_ALL = 0.20;
     public double RIGHT_SLIDE_OUT_100 = 0.04;
     public double LEFT_SLIDE_IN = 0.82;
+    public double LEFT_SLIDE_IN_ALL = 0.80;
     public double LEFT_SLIDE_OUT_100 = 0.96;
     public double RIGHT_SLIDE_OUT_50 = 0.11;
     public double LEFT_SLIDE_OUT_50 = 0.89;
+    public double INTAKE_POWER_IN;
 
 
     //Outtake
@@ -50,5 +53,6 @@ public class ShoddyPositions {
     public int SWIVEL_UP = 180;
     public int VERTICAL_UP = -2650;
     public int VERTICAL_DOWN = 785;
+    public int VERTICAL_REST = 0;
 
 }

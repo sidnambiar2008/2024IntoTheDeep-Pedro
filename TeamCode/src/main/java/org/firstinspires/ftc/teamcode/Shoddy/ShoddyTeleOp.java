@@ -21,6 +21,7 @@ public class ShoddyTeleOp extends LinearOpMode {
     ShoddyRobotClass r;
     ShoddyToggles t;
     ShoddyPositions po;
+    ShoddyStateMachine sm;
     private ElapsedTime runtime;
 
 
@@ -58,21 +59,13 @@ public class ShoddyTeleOp extends LinearOpMode {
     double armPos3;
     double pid3, targetArmAngle3, ff3, currentArmAngle3, swivelPower;
 
-    //ENUMS
-    public enum RightStickY{
-        OUTTAKE_VERTICAL,
-        FOREBAR_ARMS,
-        SWIVEL,
-        WRIST,
-        CLAW
-    };
-    RightStickY rightStickY = RightStickY.FOREBAR_ARMS;
 
     @Override
     public void runOpMode() {
         r = new ShoddyRobotClass(this);
         t = new ShoddyToggles(this);
         po = new ShoddyPositions();
+        sm = new ShoddyStateMachine(this);
         runtime = new ElapsedTime();
 
         r.wheelSetUp();
@@ -80,19 +73,29 @@ public class ShoddyTeleOp extends LinearOpMode {
         r.motorSetUp();
         r.analogSetUp();
 
-        //r.topVertical.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        //r.bottomVertical.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        r.topVertical.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        r.bottomVertical.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         controller = new PIDController(p, i, d);
         controller2 = new PIDController(p2, i2, d2);
         controller3 = new PIDController(p3, i3, d3);
 
-        //Servo Startups
-        //Yada yada
+        sm.intakeState = ShoddyStateMachine.IntakeState.INTAKE_START;
+        sm.outtakeState = ShoddyStateMachine.OuttakeState.OUTTAKE_START;
+        sm.transferState = ShoddyStateMachine.TransferState.TRANSFER_START;
 
         waitForStart();
         runtime.reset();
+
+        //INIT
+//        while (runtime.milliseconds() < 500){
+//            setVerticalSlidesPIDF(po.VERTICAL_REST);
+//        }
+//        while (runtime.milliseconds() < 1000){
+//            setV4BPIDF(po.V4B_REST_POS);
+//        }
+
 
         while (opModeIsActive()) {
 
@@ -135,14 +138,6 @@ public class ShoddyTeleOp extends LinearOpMode {
             // Intake Power (Right Stick Y)
             {
                 r.intake.setPower(gamepad1.right_stick_y);
-
-//                //Right trigger spin in, left trigger spin out
-//                if (gamepad1.right_trigger > 0) {
-//                    r.intake.setPower(-1 * (gamepad1.right_trigger) / 2);
-//                } else if (gamepad1.left_trigger > 0){
-//                    r.intake.setPower(1 * (gamepad1.left_trigger) / 2);
-//                }
-
             }
 
             //Claw Toggles (Bumpers) Right Bumper Open/Closed, Left Bumper wrist
@@ -173,99 +168,24 @@ public class ShoddyTeleOp extends LinearOpMode {
 
             }
 
-            //Auto Intake 100% (A)
+            //Auto Intake (A)
             {
-                if (t.toggle("a")) {
-                    if (t.aToggle) {
-                        po.INTAKE_IN_BOOL = false;
-
-                        positionRight = po.RIGHT_SLIDE_OUT_100;
-                        positionLeft = po.LEFT_SLIDE_OUT_100;
-
-                        usePIDFV4B = true;
-                        V4BTarget = po.V4B_INTAKE_POS;
-
-                    } else {
-                        po.INTAKE_IN_BOOL = true;
-
-                        usePIDFV4B = true;
-                        V4BTarget = po.V4B_REST_POS;
-
-                        positionRight = po.RIGHT_SLIDE_IN;
-                        positionLeft = po.LEFT_SLIDE_IN;
-                    }
-                }
+                sm.intakeStateCheck();
             }
 
-            // (Y)
+            //Auto Outtake (Y)
             {
-                if (t.toggle("y")) {
-                    if (t.yToggle) {
-                        po.INTAKE_IN_BOOL = false;
-
-                        positionRight = po.RIGHT_SLIDE_OUT_50;
-                        positionLeft = po.LEFT_SLIDE_OUT_50;
-
-                        usePIDFV4B = true;
-                        V4BTarget = po.V4B_INTAKE_POS;
-
-                    } else {
-                        po.INTAKE_IN_BOOL = true;
-
-                        usePIDFV4B = true;
-                        V4BTarget = po.V4B_REST_POS;
-
-                        positionRight = po.RIGHT_SLIDE_IN;
-                        positionLeft = po.LEFT_SLIDE_IN;
-
-                    }
-                }
+                sm.outtakeStateCheck();
             }
 
             //Auto Transfer (B)
             {
-                if (t.toggle("b")) {
-                    if (t.bToggle) {
-
-                        positionRight = po.RIGHT_SLIDE_IN;
-                        positionLeft = po.LEFT_SLIDE_IN;
-
-                        usePIDFV4B = true;
-                        V4BTarget = po.V4B_TRANSFER_POS;
-
-                        usePIDFswivel = true;
-                        swivelTarget = po.SWIVEL_DOWN;
-
-                        r.claw.setPosition(po.CLAW_OPEN);
-
-                        usePIDFvertical = true;
-                        vertSlidesTarget = po.VERTICAL_DOWN;
-
-                        po.INTAKE_IN_BOOL = true;
-                        po.CLAW_DOWN_BOOL = true;
-                        po.CLAW_CLOSED_BOOL = false;
-
-                    } else {
-
-                        r.claw.setPosition(po.CLAW_CLOSED);
-
-                        usePIDFvertical = true;
-                        vertSlidesTarget = po.VERTICAL_UP;
-
-                        usePIDFswivel = true;
-                        swivelTarget = po.SWIVEL_UP;
-                    }
-                }
+                sm.transferStateCheck();
             }
 
-            //Slow Mode Toggle (X)
+            //Break from macros (X)
             {
-                t.toggle("x");
-                if (t.slowModeToggle){
-                    po.speed *= po.slowMultiplier;
-                } else {
-                    po.speed = po.maxSpeed;
-                }
+                //do nothing here
             }
 
             //Set powers
@@ -273,17 +193,17 @@ public class ShoddyTeleOp extends LinearOpMode {
             r.rightLinear.setPosition(positionRight);
             r.leftLinear.setPosition(positionLeft);
 
-            if (usePIDFswivel){
-                setSwivelPIDF(swivelTarget);
-            }
-
-            if (usePIDFvertical){
-                setVerticalSlidesPIDF(vertSlidesTarget);
-            }
-
-            if (usePIDFV4B){
-                setV4BPIDF(V4BTarget);
-            }
+//            if (usePIDFswivel){
+//                setSwivelPIDF(swivelTarget);
+//            }
+//
+//            if (usePIDFvertical){
+//                setVerticalSlidesPIDF(vertSlidesTarget);
+//            }
+//
+//            if (usePIDFV4B){
+//                setV4BPIDF(V4BTarget);
+//            }
 
             //Telemetry
             telemetry.addData("runtime", runtime.milliseconds());
@@ -298,7 +218,7 @@ public class ShoddyTeleOp extends LinearOpMode {
         }
     }
     // Methods
-    private void setV4BPIDF(int target) {
+    public void setV4BPIDF(int target) {
         controller.setPID(p, i, d);
         armPos = r.rightV4BEnc.getCurrentPosition();
         pid = controller.calculate(armPos, target);
@@ -312,7 +232,7 @@ public class ShoddyTeleOp extends LinearOpMode {
         r.rightArm.setPower(V4BPower);
     }
 
-    private void setVerticalSlidesPIDF(int target2) {
+    public void setVerticalSlidesPIDF(int target2) {
         controller2.setPID(p2, i2, d2);
         armPos2 = r.topVertical.getCurrentPosition();
         pid2 = controller2.calculate(armPos2, target2);
@@ -326,7 +246,7 @@ public class ShoddyTeleOp extends LinearOpMode {
         r.bottomVertical.setPower(verticalSlidesPower);
     }
 
-    private void setSwivelPIDF(int target3) {
+    public void setSwivelPIDF(int target3) {
         controller3.setPID(p3, i3, d3);
         armPos3 = r.rightSwivelEnc.getCurrentPosition();
         pid3 = controller3.calculate(armPos3, target3);
@@ -340,7 +260,7 @@ public class ShoddyTeleOp extends LinearOpMode {
         r.rightSwivel.setPower(swivelPower);
     }
 
-    private void setLinearPower(double pos){
+    public void setLinearPower(double pos){
         r.rightLinear.setPosition(pos);
         r.leftLinear.setPosition(pos);
     }
